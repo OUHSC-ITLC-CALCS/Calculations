@@ -2,14 +2,149 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>ITLC Calculations</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ITLC QC Calculations</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    nav a {
+      margin-right: 15px;
+      text-decoration: none;
+      color: blue;
+    }
+    nav a.active {
+      font-weight: bold;
+      text-decoration: underline;
+    }
+    .calculator-container {
+      margin-top: 20px;
+    }
+    label {
+      display: inline-block;
+      width: 100px;
+    }
+    input {
+      width: 100px;
+      margin-bottom: 10px;
+    }
+  </style>
 </head>
 <body>
   <h1>ITLC Calculations</h1>
+  <nav>
+    <a href="#home" id="link-home">Home</a>
+    <a href="#calc1" id="link-calc1">Addition</a>
+    <a href="#calc2" id="link-calc2">Multiplication</a>
+  </nav>
+
+  <div class="calculator-container" id="calculator-container">
+    <!-- Dynamic content will load here -->
+  </div>
+
   <script>
-    // Your JavaScript code goes here
-    console.log("Hello from inline JavaScript!");
-    alert("Welcome to my page!");
+    // Render functions for each page/calculator
+    function renderHome() {
+      return `
+        <h2>Welcome!</h2>
+        <p>Select a calculator from the navigation above.</p>
+      `;
+    }
+
+    function renderCalc1() {
+      // Calculator 1: Addition
+      return `
+        <h2>Addition Calculator</h2>
+        <div>
+          <label for="num1">Number 1:</label>
+          <input type="number" id="num1" value="0" />
+        </div>
+        <div>
+          <label for="num2">Number 2:</label>
+          <input type="number" id="num2" value="0" />
+        </div>
+        <div>
+          <strong>Result: <span id="result1">0</span></strong>
+        </div>
+      `;
+    }
+
+    function renderCalc2() {
+      // Calculator 2: Multiplication
+      return `
+        <h2>Multiplication Calculator</h2>
+        <div>
+          <label for="mul1">Factor 1:</label>
+          <input type="number" id="mul1" value="0" />
+        </div>
+        <div>
+          <label for="mul2">Factor 2:</label>
+          <input type="number" id="mul2" value="0" />
+        </div>
+        <div>
+          <strong>Result: <span id="result2">0</span></strong>
+        </div>
+      `;
+    }
+
+    // Router function that loads content based on the URL hash
+    function router() {
+      const container = document.getElementById('calculator-container');
+      const hash = window.location.hash || '#home';
+
+      // Remove "active" class from all nav links
+      document.querySelectorAll('nav a').forEach(link => link.classList.remove('active'));
+
+      let content = '';
+      switch (hash) {
+        case '#calc1':
+          content = renderCalc1();
+          document.getElementById('link-calc1').classList.add('active');
+          break;
+        case '#calc2':
+          content = renderCalc2();
+          document.getElementById('link-calc2').classList.add('active');
+          break;
+        default:
+          content = renderHome();
+          document.getElementById('link-home').classList.add('active');
+      }
+      container.innerHTML = content;
+      // After rendering new content, attach the necessary event listeners
+      attachEventListeners(hash);
+    }
+
+    // Attach calculation event listeners based on the active calculator
+    function attachEventListeners(hash) {
+      if (hash === '#calc1') {
+        const num1 = document.getElementById('num1');
+        const num2 = document.getElementById('num2');
+        const result1 = document.getElementById('result1');
+        function calculateAddition() {
+          const a = parseFloat(num1.value) || 0;
+          const b = parseFloat(num2.value) || 0;
+          result1.textContent = a + b;
+        }
+        num1.addEventListener('input', calculateAddition);
+        num2.addEventListener('input', calculateAddition);
+      } else if (hash === '#calc2') {
+        const mul1 = document.getElementById('mul1');
+        const mul2 = document.getElementById('mul2');
+        const result2 = document.getElementById('result2');
+        function calculateMultiplication() {
+          const a = parseFloat(mul1.value) || 0;
+          const b = parseFloat(mul2.value) || 0;
+          result2.textContent = a * b;
+        }
+        mul1.addEventListener('input', calculateMultiplication);
+        mul2.addEventListener('input', calculateMultiplication);
+      }
+    }
+
+    // Listen for hash changes and on initial load
+    window.addEventListener('hashchange', router);
+    window.addEventListener('DOMContentLoaded', router);
   </script>
-  </body>
+</body>
 </html>
