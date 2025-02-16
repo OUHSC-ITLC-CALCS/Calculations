@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ITLC QC Calculations</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Calculators SPA</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -23,7 +23,7 @@
     }
     label {
       display: inline-block;
-      width: 100px;
+      width: 150px;
     }
     input {
       width: 100px;
@@ -32,12 +32,12 @@
   </style>
 </head>
 <body>
-  <h1>ITLC Calculations</h1>
   <nav>
     <a href="#home" id="link-home">Home</a>
     <a href="#calc1" id="link-calc1">Addition</a>
     <a href="#calc2" id="link-calc2">Multiplication</a>
-    <a href="#calc3" id="link-calc3">Labeling Efficiency</a>
+    <!-- NEW LINK -->
+    <a href="#calc3" id="link-calc3">MAA Percent Yield</a>
   </nav>
 
   <div class="calculator-container" id="calculator-container">
@@ -45,7 +45,9 @@
   </div>
 
   <script>
-    // Render functions for each page/calculator
+    // ==========================
+    //  RENDER FUNCTIONS
+    // ==========================
     function renderHome() {
       return `
         <h2>Welcome!</h2>
@@ -89,34 +91,36 @@
       `;
     }
 
+    // NEW: Calculator 3 for Labeling Efficiency
     function renderCalc3() {
-    // Create the layout for your new calculator
-    return `
-      <h2>Labeling Efficiency Calculator</h2>
-      <div>
-        <label for="background">Background (cpm):</label>
-        <input type="number" id="background" value="0" />
-      </div>
-      <div>
-        <label for="origin">Origin (cpm):</label>
-        <input type="number" id="origin" value="0" />
-      </div>
-      <div>
-        <label for="solventFront">Solvent Front (cpm):</label>
-        <input type="number" id="solventFront" value="0" />
-      </div>
+      return `
+        <h2>Labeling Efficiency Calculator</h2>
+        <div>
+          <label for="background">Background (cpm):</label>
+          <input type="number" id="background" value="0" />
+        </div>
+        <div>
+          <label for="origin">Origin (cpm):</label>
+          <input type="number" id="origin" value="0" />
+        </div>
+        <div>
+          <label for="solventFront">Solvent Front (cpm):</label>
+          <input type="number" id="solventFront" value="0" />
+        </div>
 
-      <br />
-      <div>
-        <strong>Total Counts:</strong> <span id="totalCounts">0</span>
-      </div>
-      <div>
-        <strong>% Complexed Labeled:</strong> <span id="percentComplexed">0</span>
-      </div>
-    `;
-  }
+        <br/>
+        <div>
+          <strong>Total Counts:</strong> <span id="totalCounts">0</span>
+        </div>
+        <div>
+          <strong>% Complexed Labeled:</strong> <span id="percentComplexed">0</span>
+        </div>
+      `;
+    }
 
-    // Router function that loads content based on the URL hash
+    // ==========================
+    //  ROUTER
+    // ==========================
     function router() {
       const container = document.getElementById('calculator-container');
       const hash = window.location.hash || '#home';
@@ -137,77 +141,88 @@
         case '#calc3':
           content = renderCalc3();
           document.getElementById('link-calc3').classList.add('active');
-          break;  
+          break;
         default:
           content = renderHome();
           document.getElementById('link-home').classList.add('active');
       }
       container.innerHTML = content;
-      // After rendering new content, attach the necessary event listeners
       attachEventListeners(hash);
     }
 
-    // Attach calculation event listeners based on the active calculator
+    // ==========================
+    //  EVENT LISTENERS
+    // ==========================
     function attachEventListeners(hash) {
       if (hash === '#calc1') {
+        // Addition
         const num1 = document.getElementById('num1');
         const num2 = document.getElementById('num2');
         const result1 = document.getElementById('result1');
+
         function calculateAddition() {
           const a = parseFloat(num1.value) || 0;
           const b = parseFloat(num2.value) || 0;
           result1.textContent = a + b;
         }
+
         num1.addEventListener('input', calculateAddition);
         num2.addEventListener('input', calculateAddition);
+
       } else if (hash === '#calc2') {
+        // Multiplication
         const mul1 = document.getElementById('mul1');
         const mul2 = document.getElementById('mul2');
         const result2 = document.getElementById('result2');
+
         function calculateMultiplication() {
           const a = parseFloat(mul1.value) || 0;
           const b = parseFloat(mul2.value) || 0;
           result2.textContent = a * b;
         }
+
         mul1.addEventListener('input', calculateMultiplication);
         mul2.addEventListener('input', calculateMultiplication);
-      }
-      if (hash === '#calc3') {
-      // Get references to the input fields
-      const backgroundInput = document.getElementById('background');
-      const originInput = document.getElementById('origin');
-      const solventFrontInput = document.getElementById('solventFront');
 
-      // Get references to the result spans
-      const totalCountsSpan = document.getElementById('totalCounts');
-      const percentComplexedSpan = document.getElementById('percentComplexed');
+      } else if (hash === '#calc3') {
+        // Labeling Efficiency
+        const backgroundInput = document.getElementById('background');
+        const originInput = document.getElementById('origin');
+        const solventFrontInput = document.getElementById('solventFront');
 
-      // Define the function that recalculates and updates the UI
-      function recalc() {
-        const background = parseFloat(backgroundInput.value) || 0;
-        const origin = parseFloat(originInput.value) || 0;
-        const solventFront = parseFloat(solventFrontInput.value) || 0;
+        const totalCountsSpan = document.getElementById('totalCounts');
+        const percentComplexedSpan = document.getElementById('percentComplexed');
 
-        // 1. Total Counts
-        const totalCounts = (origin - background) + (solventFront - background);
-        totalCountsSpan.textContent = totalCounts.toFixed(1); // or remove .toFixed if you want raw values
+        function recalc() {
+          const background = parseFloat(backgroundInput.value) || 0;
+          const origin = parseFloat(originInput.value) || 0;
+          const solventFront = parseFloat(solventFrontInput.value) || 0;
 
-        // 2. % Complexed Labeled
-        //    Avoid division by zero by checking if totalCounts is non-zero
-        if (totalCounts !== 0) {
-          const percentComplexed = ((origin - background) / totalCounts) * 100;
-          percentComplexedSpan.textContent = percentComplexed.toFixed(1);
-        } else {
-          percentComplexedSpan.textContent = '0';
+          // 1. Total Counts
+          const totalCounts = (origin - background) + (solventFront - background);
+          totalCountsSpan.textContent = totalCounts.toFixed(1); // or remove .toFixed if you want raw
+
+          // 2. % Complexed Labeled
+          if (totalCounts !== 0) {
+            const percentComplexed = ((origin - background) / totalCounts) * 100;
+            percentComplexedSpan.textContent = percentComplexed.toFixed(1);
+          } else {
+            percentComplexedSpan.textContent = '0';
+          }
         }
-      }
 
-      // Attach input event listeners so recalculation happens automatically
-      [backgroundInput, originInput, solventFrontInput].forEach(input => {
-        input.addEventListener('input', recalc);
-      });
+        // Attach event listeners for real-time updates
+        [backgroundInput, originInput, solventFrontInput].forEach(input => {
+          input.addEventListener('input', recalc);
+        });
+      }
     }
-  }
-  
+
+    // ==========================
+    //  INITIALIZE
+    // ==========================
+    window.addEventListener('hashchange', router);
+    window.addEventListener('DOMContentLoaded', router);
+  </script>
 </body>
 </html>
