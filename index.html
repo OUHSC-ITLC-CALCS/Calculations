@@ -223,7 +223,7 @@
         mul2.addEventListener('input', calculateMultiplication);
 
       } else if (hash === '#calc3') {
-        // MAA Percent Yield
+        // Labeling Efficiency
         const backgroundInput = document.getElementById('background');
         const originInput = document.getElementById('origin');
         const solventFrontInput = document.getElementById('solventFront');
@@ -249,6 +249,15 @@
           }
         }
 
+          // Recalculate whenever any input changes
+          [
+            backgroundInput,
+            originInput,
+            solventFrontInput,
+          ].forEach(input => {
+            input.addEventListener('input', recalc);
+       });
+      
       } else if (hash === '#calc4') {
       // #calc4: MDP Percent Yield  
       const bgInput = document.getElementById('sgBackground');
@@ -270,7 +279,7 @@
           const acetoneOrigin = parseFloat(acetoneOriginInput.value) || 0;
           const acetoneFront = parseFloat(acetoneFrontInput.value) || 0;
 
-          // 1. Total Saline
+          // 1. Total Saline (subtract background from each region)
           const totalSaline = (salineOrigin - background) + (salineFront - background);
           totalSalineSpan.textContent = totalSaline.toFixed(1);
 
@@ -279,35 +288,41 @@
           totalAcetoneSpan.textContent = totalAcetone.toFixed(1);
 
           // 3. % Hydrolyzed Reduced (saline)
+          //    *Ignore* background in the ratio to match your Excel reference
           let percentHydrolyzed = 0;
-          if (totalSaline !== 0) {
-            percentHydrolyzed = ((salineOrigin - background) / totalSaline) * 100;
-          }
-          percentHydrolyzedSpan.textContent = percentHydrolyzed.toFixed(1);
+          const salineSum = salineOrigin + salineFront;
+          if (salineSum !== 0) {
+            percentHydrolyzed = (salineOrigin / salineSum) * 100;
+      }
 
           // 4. % Pertechnetate (acetone)
+          //    *Ignore* background in the ratio to match your Excel reference
           let percentPertechnetate = 0;
-          if (totalAcetone !== 0) {
-            percentPertechnetate = ((acetoneFront - background) / totalAcetone) * 100;
-          }
-          percentPertechnetateSpan.textContent = percentPertechnetate.toFixed(1);
+          const acetoneSum = acetoneOrigin + acetoneFront;
+          if (acetoneSum !== 0) {
+            percentPertechnetate = (acetoneFront / acetoneSum) * 100;
+      }
 
           // 5. % Complex Labeled
           const percentComplex = 100 - (percentHydrolyzed + percentPertechnetate);
+
+          percentHydrolyzedSpan.textContent = percentHydrolyzed.toFixed(1);
+          percentPertechnetateSpan.textContent = percentPertechnetate.toFixed(1);
           percentComplexSpan.textContent = percentComplex.toFixed(1);
         }
 
-        // Recalculate whenever any input changes
-        [
-          bgInput,
-          salineOriginInput,
-          salineFrontInput,
-          acetoneOriginInput,
-          acetoneFrontInput
-        ].forEach(input => {
-          input.addEventListener('input', recalc);
-        });
-      }
+          // Recalculate whenever any input changes
+          [
+            bgInput,
+            salineOriginInput,
+            salineFrontInput,
+            acetoneOriginInput,
+            acetoneFrontInput
+          ].forEach(input => {
+            input.addEventListener('input', recalc);
+       });
+}
+
     }
 
 
