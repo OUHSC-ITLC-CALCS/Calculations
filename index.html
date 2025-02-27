@@ -34,10 +34,10 @@
 <body>
   <nav>
     <a href="#home" id="link-home">Home</a>
-    <a href="#calc1" id="link-calc1"> DTPA Percent Yield</a>
-    <a href="#calc2" id="link-calc2"> HIDA Percent Yield</a>
-    <a href="#calc3" id="link-calc3"> MAA Percent Yield</a>
-    <a href="#calc4" id="link-calc4"> MDP Percent Yield</a>
+    <a href="#calc1" id="link-calc1">DTPA Percent Yield</a>
+    <a href="#calc2" id="link-calc2">HIDA Percent Yield</a>
+    <a href="#calc3" id="link-calc3">MAA Percent Yield</a>
+    <a href="#calc4" id="link-calc4">MDP Percent Yield</a>
   </nav>
 
   <div class="calculator-container" id="calculator-container">
@@ -54,79 +54,84 @@
         <p>Select a calculator from the navigation above.</p>
       `;
     }
-    // ==========================
+
+    // --------------------------
+    // 1) DTPA CALCULATOR
+    // --------------------------
     function renderCalc1() {
-      // Calculator 1: DTPA Percent Yield
-      // This calculator is for addition, but you can change it to any other calculation.
       return `
-         <h2>DTPA Percent Yield Calculator</h2>
+        <h2>DTPA Percent Yield Calculator</h2>
         <div>
-          <label for="sgBackground">Background (cpm):</label>
-          <input type="number" id="sgBackground" value="0" />
+          <label for="dtpaBackground">Background (cpm):</label>
+          <input type="number" id="dtpaBackground" value="0" />
         </div>
         <div>
-          <label for="sgSalineOrigin">Saline Origin (cpm):</label>
-          <input type="number" id="sgSalineOrigin" value="0" />
+          <label for="dtpaSalineOrigin">Saline Origin (cpm):</label>
+          <input type="number" id="dtpaSalineOrigin" value="0" />
         </div>
         <div>
-          <label for="sgSalineFront">Saline Front (cpm):</label>
-          <input type="number" id="sgSalineFront" value="0" />
+          <label for="dtpaSalineFront">Saline Front (cpm):</label>
+          <input type="number" id="dtpaSalineFront" value="0" />
         </div>
         <div>
-              <label for="sgMEKOrigin">MEK Origin (cpm):</label>
-          <input type="number" id="sgMEKOrigin" value="0" />
+          <label for="dtpaMekOrigin">MEK Origin (cpm):</label>
+          <input type="number" id="dtpaMekOrigin" value="0" />
         </div>
         <div>
-          <label for="sgMEKFront">MEK Front (cpm):</label>
-          <input type="number" id="sgMEKFront" value="0" />
+          <label for="dtpaMekFront">MEK Front (cpm):</label>
+          <input type="number" id="dtpaMekFront" value="0" />
         </div>
 
         <br />
-        <div><strong>Total Saline (counts):</strong> <span id="totalSaline">0</span></div>
-        <div><strong>Total MEK (counts):</strong> <span id="totalMEK">0</span></div>
-        <div><strong>% Hydrolyzed Reduced [H/R]:</strong> <span id="percentHydrolyzed">0</span></div>
-        <div><strong>% Free Pertechnetate [TcO₄⁻]:</strong> <span id="percentPertechnetate">0</span></div>
-        <div><strong>% DTPA Labeled:</strong> <span id="percentComplexLabeled">0</span></div>
+        <div><strong>Total Saline (counts):</strong> <span id="dtpaTotalSaline">0</span></div>
+        <div><strong>Total MEK (counts):</strong> <span id="dtpaTotalMek">0</span></div>
+        <div><strong>% Hydrolyzed Reduced [H/R]:</strong> <span id="dtpaPercentHydrolyzed">0</span></div>
+        <div><strong>% Free Pertechnetate [TcO₄⁻]:</strong> <span id="dtpaPercentPertechnetate">0</span></div>
+        <div><strong>% DTPA Labeled:</strong> <span id="dtpaPercentComplexLabeled">0</span></div>
       `;
     }
-    // ==========================
+
+    // --------------------------
+    // 2) HIDA CALCULATOR
+    // --------------------------
     function renderCalc2() {
-      // Calculator 2: HIDA Percent Yield
-      // This calculator is for multiplication, but you can change it to any other calculation.
       return `
-         <h2>HIDA Percent Yield Calculator</h2>
+        <h2>HIDA Percent Yield Calculator</h2>
         <div>
-          <label for="sgBackground">Background (cpm):</label>
-          <input type="number" id="sgBackground" value="0" />
+          <label for="hidaBackground">Background (cpm):</label>
+          <input type="number" id="hidaBackground" value="0" />
         </div>
         <div>
-          <label for="sgWaterOrigin">Water Origin (cpm):</label>
-          <input type="number" id="sgWaterOrigin" value="0" />
+          <label for="hidaWaterOrigin">Water Origin (cpm):</label>
+          <input type="number" id="hidaWaterOrigin" value="0" />
         </div>
         <div>
-          <label for="sgWaterFront">Water Front (cpm):</label>
-          <input type="number" id="sgWaterFront" value="0" />
+          <label for="hidaWaterFront">Water Front (cpm):</label>
+          <input type="number" id="hidaWaterFront" value="0" />
         </div>
         <div>
-          <label for="sgSaturated Saline Origin">Saturated Saline  Origin (cpm):</label>
-          <input type="number" id="sgSaturated Saline Origin" value="0" />
+          <label for="hidaSalineOrigin">Sat. Saline Origin (cpm):</label>
+          <input type="number" id="hidaSalineOrigin" value="0" />
         </div>
         <div>
-          <label for="sgSaturated Saline Front">Saturated Saline  Front (cpm):</label>
-          <input type="number" id="sgSaturated Saline Front" value="0" />
+          <label for="hidaSalineFront">Sat. Saline Front (cpm):</label>
+          <input type="number" id="hidaSalineFront" value="0" />
         </div>
 
         <br />
-        <div><strong>Total Water (counts):</strong> <span id="totalWater">0</span></div>
-        <div><strong>Total Saturated Saline  (counts):</strong> <span id="totalSaturated Saline ">0</span></div>
-        <div><strong>% Hydrolyzed Reduced (Water):</strong> <span id="percentHydrolyzed">0</span></div>
-        <div><strong>% Pertechnetate (Saturated Saline ):</strong> <span id="percentPertechnetate">0</span></div>
-        <div><strong>% Complex Labeled:</strong> <span id="percentComplexLabeled">0</span></div>
+        <div><strong>Total Water (counts):</strong> <span id="hidaTotalWater">0</span></div>
+        <div><strong>Total Sat. Saline (counts):</strong> <span id="hidaTotalSaline">0</span></div>
+        <div><strong>% Hydrolyzed Reduced (Water):</strong> <span id="hidaPercentHydrolyzed">0</span></div>
+        <div><strong>% Pertechnetate (Sat. Saline):</strong> <span id="hidaPercentPertechnetate">0</span></div>
+        <!-- CHANGED LABEL BELOW -->
+        <div><strong>% HIDA Labeled:</strong> <span id="hidaPercentComplexLabeled">0</span></div>
       `;
     }
-    // ==========================
+
+    // --------------------------
+    // 3) MAA CALCULATOR
+    // --------------------------
     function renderCalc3() {
-            // Calculator 3: MAA Percent Yield
       return `
         <h2>MAA Percent Yield Calculator</h2>
         <div>
@@ -143,16 +148,15 @@
         </div>
 
         <br/>
-        <div>
-          <strong>Total Counts:</strong> <span id="totalCounts">0</span>
-        </div>
-        <div>
-          <strong>% Complexed Labeled:</strong> <span id="percentComplexed">0</span>
-        </div>
+        <div><strong>Total Counts:</strong> <span id="totalCounts">0</span></div>
+        <!-- CHANGED LABEL BELOW -->
+        <div><strong>% MAA Labeled:</strong> <span id="percentComplexed">0</span></div>
       `;
     }
 
-      // Calculator 4: MDP Percent Yield
+    // --------------------------
+    // 4) MDP CALCULATOR
+    // --------------------------
     function renderCalc4() {
       return `
         <h2>MDP Percent Yield Calculator</h2>
@@ -213,7 +217,7 @@
         case '#calc4':
           content = renderCalc4();
           document.getElementById('link-calc4').classList.add('active');
-          break;  
+          break;
         default:
           content = renderHome();
           document.getElementById('link-home').classList.add('active');
@@ -226,52 +230,50 @@
     //  EVENT LISTENERS
     // ==========================
     function attachEventListeners(hash) {
+      // 1) DTPA
       if (hash === '#calc1') {
-      // #calc1: DTPA Percent Yield  
-      const bgInput = document.getElementById('sgBackground');
-        const salineOriginInput = document.getElementById('sgSalineOrigin');
-        const salineFrontInput = document.getElementById('sgSalineFront');
-        const acetoneOriginInput = document.getElementById('sgAcetoneOrigin');
-        const acetoneFrontInput = document.getElementById('sgAcetoneFront');
+        const bgInput = document.getElementById('dtpaBackground');
+        const salineOriginInput = document.getElementById('dtpaSalineOrigin');
+        const salineFrontInput = document.getElementById('dtpaSalineFront');
+        const mekOriginInput = document.getElementById('dtpaMekOrigin');
+        const mekFrontInput = document.getElementById('dtpaMekFront');
 
-        const totalSalineSpan = document.getElementById('totalSaline');
-        const totalAcetoneSpan = document.getElementById('totalAcetone');
-        const percentHydrolyzedSpan = document.getElementById('percentHydrolyzed');
-        const percentPertechnetateSpan = document.getElementById('percentPertechnetate');
-        const percentComplexSpan = document.getElementById('percentComplexLabeled');
+        const totalSalineSpan = document.getElementById('dtpaTotalSaline');
+        const totalMekSpan = document.getElementById('dtpaTotalMek');
+        const percentHydrolyzedSpan = document.getElementById('dtpaPercentHydrolyzed');
+        const percentPertechnetateSpan = document.getElementById('dtpaPercentPertechnetate');
+        const percentComplexSpan = document.getElementById('dtpaPercentComplexLabeled');
 
         function recalc() {
           const background = parseFloat(bgInput.value) || 0;
           const salineOrigin = parseFloat(salineOriginInput.value) || 0;
           const salineFront = parseFloat(salineFrontInput.value) || 0;
-          const acetoneOrigin = parseFloat(acetoneOriginInput.value) || 0;
-          const acetoneFront = parseFloat(acetoneFrontInput.value) || 0;
+          const mekOrigin = parseFloat(mekOriginInput.value) || 0;
+          const mekFront = parseFloat(mekFrontInput.value) || 0;
 
-          // 1. Total Saline (subtract background from each region)
+          // 1. Total Saline
           const totalSaline = (salineOrigin - background) + (salineFront - background);
           totalSalineSpan.textContent = totalSaline.toFixed(1);
 
-          // 2. Total Acetone
-          const totalAcetone = (acetoneOrigin - background) + (acetoneFront - background);
-          totalAcetoneSpan.textContent = totalAcetone.toFixed(1);
+          // 2. Total MEK
+          const totalMek = (mekOrigin - background) + (mekFront - background);
+          totalMekSpan.textContent = totalMek.toFixed(1);
 
           // 3. % Hydrolyzed Reduced (saline)
-          //    *Ignore* background in the ratio to match your Excel reference
           let percentHydrolyzed = 0;
           const salineSum = salineOrigin + salineFront;
           if (salineSum !== 0) {
             percentHydrolyzed = (salineOrigin / salineSum) * 100;
-      }
+          }
 
-          // 4. % Pertechnetate (acetone)
-          //    *Ignore* background in the ratio to match your Excel reference
+          // 4. % Pertechnetate (MEK)
           let percentPertechnetate = 0;
-          const acetoneSum = acetoneOrigin + acetoneFront;
-          if (acetoneSum !== 0) {
-            percentPertechnetate = (acetoneFront / acetoneSum) * 100;
-      }
+          const mekSum = mekOrigin + mekFront;
+          if (mekSum !== 0) {
+            percentPertechnetate = (mekFront / mekSum) * 100;
+          }
 
-          // 5. % Complex Labeled
+          // 5. % DTPA Labeled
           const percentComplex = 100 - (percentHydrolyzed + percentPertechnetate);
 
           percentHydrolyzedSpan.textContent = percentHydrolyzed.toFixed(1);
@@ -279,34 +281,79 @@
           percentComplexSpan.textContent = percentComplex.toFixed(1);
         }
 
-          // Recalculate whenever any input changes
-          [
-            bgInput,
-            salineOriginInput,
-            salineFrontInput,
-            acetoneOriginInput,
-            acetoneFrontInput
-          ].forEach(input => {
-            input.addEventListener('input', recalc);
-       });
+        [
+          bgInput,
+          salineOriginInput,
+          salineFrontInput,
+          mekOriginInput,
+          mekFrontInput
+        ].forEach(input => {
+          input.addEventListener('input', recalc);
+        });
 
+      // 2) HIDA
       } else if (hash === '#calc2') {
-        // Multiplication
-        const mul1 = document.getElementById('mul1');
-        const mul2 = document.getElementById('mul2');
-        const result2 = document.getElementById('result2');
+        const bgInput = document.getElementById('hidaBackground');
+        const waterOriginInput = document.getElementById('hidaWaterOrigin');
+        const waterFrontInput = document.getElementById('hidaWaterFront');
+        const salineOriginInput = document.getElementById('hidaSalineOrigin');
+        const salineFrontInput = document.getElementById('hidaSalineFront');
 
-        function calculateMultiplication() {
-          const a = parseFloat(mul1.value) || 0;
-          const b = parseFloat(mul2.value) || 0;
-          result2.textContent = a * b;
+        const totalWaterSpan = document.getElementById('hidaTotalWater');
+        const totalSalineSpan = document.getElementById('hidaTotalSaline');
+        const percentHydrolyzedSpan = document.getElementById('hidaPercentHydrolyzed');
+        const percentPertechnetateSpan = document.getElementById('hidaPercentPertechnetate');
+        const percentComplexSpan = document.getElementById('hidaPercentComplexLabeled');
+
+        function recalc() {
+          const background = parseFloat(bgInput.value) || 0;
+          const waterOrigin = parseFloat(waterOriginInput.value) || 0;
+          const waterFront = parseFloat(waterFrontInput.value) || 0;
+          const salineOrigin = parseFloat(salineOriginInput.value) || 0;
+          const salineFront = parseFloat(salineFrontInput.value) || 0;
+
+          // 1. Total Water
+          const totalWater = (waterOrigin - background) + (waterFront - background);
+          totalWaterSpan.textContent = totalWater.toFixed(1);
+
+          // 2. Total Sat. Saline
+          const totalSaline = (salineOrigin - background) + (salineFront - background);
+          totalSalineSpan.textContent = totalSaline.toFixed(1);
+
+          // 3. % Hydrolyzed Reduced (Water)
+          let percentHydrolyzed = 0;
+          const waterSum = waterOrigin + waterFront;
+          if (waterSum !== 0) {
+            percentHydrolyzed = (waterOrigin / waterSum) * 100;
+          }
+
+          // 4. % Pertechnetate (Sat. Saline)
+          let percentPertechnetate = 0;
+          const salineSum = salineOrigin + salineFront;
+          if (salineSum !== 0) {
+            percentPertechnetate = (salineFront / salineSum) * 100;
+          }
+
+          // 5. % HIDA Labeled
+          const percentComplex = 100 - (percentHydrolyzed + percentPertechnetate);
+
+          percentHydrolyzedSpan.textContent = percentHydrolyzed.toFixed(1);
+          percentPertechnetateSpan.textContent = percentPertechnetate.toFixed(1);
+          percentComplexSpan.textContent = percentComplex.toFixed(1);
         }
 
-        mul1.addEventListener('input', calculateMultiplication);
-        mul2.addEventListener('input', calculateMultiplication);
+        [
+          bgInput,
+          waterOriginInput,
+          waterFrontInput,
+          salineOriginInput,
+          salineFrontInput
+        ].forEach(input => {
+          input.addEventListener('input', recalc);
+        });
 
+      // 3) MAA
       } else if (hash === '#calc3') {
-        // Labeling Efficiency
         const backgroundInput = document.getElementById('background');
         const originInput = document.getElementById('origin');
         const solventFrontInput = document.getElementById('solventFront');
@@ -321,9 +368,9 @@
 
           // 1. Total Counts
           const totalCounts = (origin - background) + (solventFront - background);
-          totalCountsSpan.textContent = totalCounts.toFixed(1); // or remove .toFixed if you want raw
+          totalCountsSpan.textContent = totalCounts.toFixed(1);
 
-          // 2. % Complexed Labeled
+          // 2. % MAA Labeled
           if (totalCounts !== 0) {
             const percentComplexed = ((origin - background) / totalCounts) * 100;
             percentComplexedSpan.textContent = percentComplexed.toFixed(1);
@@ -332,18 +379,17 @@
           }
         }
 
-          // Recalculate whenever any input changes
-          [
-            backgroundInput,
-            originInput,
-            solventFrontInput,
-          ].forEach(input => {
-            input.addEventListener('input', recalc);
-       });
-      
+        [
+          backgroundInput,
+          originInput,
+          solventFrontInput
+        ].forEach(input => {
+          input.addEventListener('input', recalc);
+        });
+
+      // 4) MDP
       } else if (hash === '#calc4') {
-      // #calc4: MDP Percent Yield  
-      const bgInput = document.getElementById('sgBackground');
+        const bgInput = document.getElementById('sgBackground');
         const salineOriginInput = document.getElementById('sgSalineOrigin');
         const salineFrontInput = document.getElementById('sgSalineFront');
         const acetoneOriginInput = document.getElementById('sgAcetoneOrigin');
@@ -362,7 +408,7 @@
           const acetoneOrigin = parseFloat(acetoneOriginInput.value) || 0;
           const acetoneFront = parseFloat(acetoneFrontInput.value) || 0;
 
-          // 1. Total Saline (subtract background from each region)
+          // 1. Total Saline
           const totalSaline = (salineOrigin - background) + (salineFront - background);
           totalSalineSpan.textContent = totalSaline.toFixed(1);
 
@@ -371,22 +417,20 @@
           totalAcetoneSpan.textContent = totalAcetone.toFixed(1);
 
           // 3. % Hydrolyzed Reduced (saline)
-          //    *Ignore* background in the ratio to match your Excel reference
           let percentHydrolyzed = 0;
           const salineSum = salineOrigin + salineFront;
           if (salineSum !== 0) {
             percentHydrolyzed = (salineOrigin / salineSum) * 100;
-      }
+          }
 
           // 4. % Pertechnetate (acetone)
-          //    *Ignore* background in the ratio to match your Excel reference
           let percentPertechnetate = 0;
           const acetoneSum = acetoneOrigin + acetoneFront;
           if (acetoneSum !== 0) {
             percentPertechnetate = (acetoneFront / acetoneSum) * 100;
-      }
+          }
 
-          // 5. % Complex Labeled
+          // 5. % Complex Labeled (MDP)
           const percentComplex = 100 - (percentHydrolyzed + percentPertechnetate);
 
           percentHydrolyzedSpan.textContent = percentHydrolyzed.toFixed(1);
@@ -394,20 +438,17 @@
           percentComplexSpan.textContent = percentComplex.toFixed(1);
         }
 
-          // Recalculate whenever any input changes
-          [
-            bgInput,
-            salineOriginInput,
-            salineFrontInput,
-            acetoneOriginInput,
-            acetoneFrontInput
-          ].forEach(input => {
-            input.addEventListener('input', recalc);
-       });
-}
-
+        [
+          bgInput,
+          salineOriginInput,
+          salineFrontInput,
+          acetoneOriginInput,
+          acetoneFrontInput
+        ].forEach(input => {
+          input.addEventListener('input', recalc);
+        });
+      }
     }
-
 
     // ==========================
     //  INITIALIZE
@@ -417,3 +458,7 @@
   </script>
 </body>
 </html>
+<!--
+  This is a simple Single Page Application (SPA) that provides calculators for DTPA, HIDA, MAA, and MDP percent yield calculations.
+  The application uses JavaScript to dynamically load content based on the selected calculator from the navigation menu.
+  Each calculator has its own input fields and displays the calculated results in real-time as the user inputs data.
