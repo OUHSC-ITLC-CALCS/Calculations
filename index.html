@@ -34,7 +34,9 @@
 <body>
   <nav>
     <a href="#home" id="link-home">Home</a>
-    <a href="#calc3" id="link-calc3">MAA Percent Yield</a>
+    <a href="#calc1" id="link-calc1"> DTPA Percent Yield</a>
+    <a href="#calc2" id="link-calc2"> HIDA Percent Yield</a>
+    <a href="#calc3" id="link-calc3"> MAA Percent Yield</a>
     <a href="#calc4" id="link-calc4"> MDP Percent Yield</a>
   </nav>
 
@@ -52,45 +54,79 @@
         <p>Select a calculator from the navigation above.</p>
       `;
     }
-
+    // ==========================
     function renderCalc1() {
-      // Calculator 1: Addition
+      // Calculator 1: DTPA Percent Yield
+      // This calculator is for addition, but you can change it to any other calculation.
       return `
-        <h2>Addition Calculator</h2>
+         <h2>DTPA Percent Yield Calculator</h2>
         <div>
-          <label for="num1">Number 1:</label>
-          <input type="number" id="num1" value="0" />
+          <label for="sgBackground">Background (cpm):</label>
+          <input type="number" id="sgBackground" value="0" />
         </div>
         <div>
-          <label for="num2">Number 2:</label>
-          <input type="number" id="num2" value="0" />
+          <label for="sgSalineOrigin">Saline Origin (cpm):</label>
+          <input type="number" id="sgSalineOrigin" value="0" />
         </div>
         <div>
-          <strong>Result: <span id="result1">0</span></strong>
+          <label for="sgSalineFront">Saline Front (cpm):</label>
+          <input type="number" id="sgSalineFront" value="0" />
         </div>
+        <div>
+              <label for="sgMEKOrigin">MEK Origin (cpm):</label>
+          <input type="number" id="sgMEKOrigin" value="0" />
+        </div>
+        <div>
+          <label for="sgMEKFront">MEK Front (cpm):</label>
+          <input type="number" id="sgMEKFront" value="0" />
+        </div>
+
+        <br />
+        <div><strong>Total Saline (counts):</strong> <span id="totalSaline">0</span></div>
+        <div><strong>Total MEK (counts):</strong> <span id="totalMEK">0</span></div>
+        <div><strong>% Hydrolyzed Reduced [H/R]:</strong> <span id="percentHydrolyzed">0</span></div>
+        <div><strong>% Free Pertechnetate [TcO₄⁻]:</strong> <span id="percentPertechnetate">0</span></div>
+        <div><strong>% DTPA Labeled:</strong> <span id="percentComplexLabeled">0</span></div>
       `;
     }
-
+    // ==========================
     function renderCalc2() {
-      // Calculator 2: Multiplication
+      // Calculator 2: HIDA Percent Yield
+      // This calculator is for multiplication, but you can change it to any other calculation.
       return `
-        <h2>Multiplication Calculator</h2>
+         <h2>HIDA Percent Yield Calculator</h2>
         <div>
-          <label for="mul1">Factor 1:</label>
-          <input type="number" id="mul1" value="0" />
+          <label for="sgBackground">Background (cpm):</label>
+          <input type="number" id="sgBackground" value="0" />
         </div>
         <div>
-          <label for="mul2">Factor 2:</label>
-          <input type="number" id="mul2" value="0" />
+          <label for="sgWaterOrigin">Water Origin (cpm):</label>
+          <input type="number" id="sgWaterOrigin" value="0" />
         </div>
         <div>
-          <strong>Result: <span id="result2">0</span></strong>
+          <label for="sgWaterFront">Water Front (cpm):</label>
+          <input type="number" id="sgWaterFront" value="0" />
         </div>
+        <div>
+          <label for="sgSaturated Saline Origin">Saturated Saline  Origin (cpm):</label>
+          <input type="number" id="sgSaturated Saline Origin" value="0" />
+        </div>
+        <div>
+          <label for="sgSaturated Saline Front">Saturated Saline  Front (cpm):</label>
+          <input type="number" id="sgSaturated Saline Front" value="0" />
+        </div>
+
+        <br />
+        <div><strong>Total Water (counts):</strong> <span id="totalWater">0</span></div>
+        <div><strong>Total Saturated Saline  (counts):</strong> <span id="totalSaturated Saline ">0</span></div>
+        <div><strong>% Hydrolyzed Reduced (Water):</strong> <span id="percentHydrolyzed">0</span></div>
+        <div><strong>% Pertechnetate (Saturated Saline ):</strong> <span id="percentPertechnetate">0</span></div>
+        <div><strong>% Complex Labeled:</strong> <span id="percentComplexLabeled">0</span></div>
       `;
     }
-
-      // Calculator 3: MAA Percent Yield
+    // ==========================
     function renderCalc3() {
+            // Calculator 3: MAA Percent Yield
       return `
         <h2>MAA Percent Yield Calculator</h2>
         <div>
@@ -116,7 +152,7 @@
       `;
     }
 
-      // Calculator 3: MDP Percent Yield
+      // Calculator 4: MDP Percent Yield
     function renderCalc4() {
       return `
         <h2>MDP Percent Yield Calculator</h2>
@@ -129,7 +165,7 @@
           <input type="number" id="sgSalineOrigin" value="0" />
         </div>
         <div>
-          <label for="sgSalineFront">Saline Front (cpm):</label>
+          <label for="sgSalineFront">Saline Solvent Front (cpm):</label>
           <input type="number" id="sgSalineFront" value="0" />
         </div>
         <div>
@@ -137,16 +173,16 @@
           <input type="number" id="sgAcetoneOrigin" value="0" />
         </div>
         <div>
-          <label for="sgAcetoneFront">Acetone Front (cpm):</label>
+          <label for="sgAcetoneFront">Acetone Solvent Front (cpm):</label>
           <input type="number" id="sgAcetoneFront" value="0" />
         </div>
 
         <br />
         <div><strong>Total Saline (counts):</strong> <span id="totalSaline">0</span></div>
         <div><strong>Total Acetone (counts):</strong> <span id="totalAcetone">0</span></div>
-        <div><strong>% Hydrolyzed Reduced (saline):</strong> <span id="percentHydrolyzed">0</span></div>
-        <div><strong>% Pertechnetate (acetone):</strong> <span id="percentPertechnetate">0</span></div>
-        <div><strong>% Complex Labeled:</strong> <span id="percentComplexLabeled">0</span></div>
+        <div><strong>% Hydrolyzed Reduced [H/R]:</strong> <span id="percentHydrolyzed">0</span></div>
+        <div><strong>% Free Pertechnetate [TcO₄⁻]:</strong> <span id="percentPertechnetate">0</span></div>
+        <div><strong>% MDP Labeled:</strong> <span id="percentComplexLabeled">0</span></div>
       `;
     }
 
@@ -191,19 +227,68 @@
     // ==========================
     function attachEventListeners(hash) {
       if (hash === '#calc1') {
-        // Addition
-        const num1 = document.getElementById('num1');
-        const num2 = document.getElementById('num2');
-        const result1 = document.getElementById('result1');
+      // #calc1: DTPA Percent Yield  
+      const bgInput = document.getElementById('sgBackground');
+        const salineOriginInput = document.getElementById('sgSalineOrigin');
+        const salineFrontInput = document.getElementById('sgSalineFront');
+        const acetoneOriginInput = document.getElementById('sgAcetoneOrigin');
+        const acetoneFrontInput = document.getElementById('sgAcetoneFront');
 
-        function calculateAddition() {
-          const a = parseFloat(num1.value) || 0;
-          const b = parseFloat(num2.value) || 0;
-          result1.textContent = a + b;
+        const totalSalineSpan = document.getElementById('totalSaline');
+        const totalAcetoneSpan = document.getElementById('totalAcetone');
+        const percentHydrolyzedSpan = document.getElementById('percentHydrolyzed');
+        const percentPertechnetateSpan = document.getElementById('percentPertechnetate');
+        const percentComplexSpan = document.getElementById('percentComplexLabeled');
+
+        function recalc() {
+          const background = parseFloat(bgInput.value) || 0;
+          const salineOrigin = parseFloat(salineOriginInput.value) || 0;
+          const salineFront = parseFloat(salineFrontInput.value) || 0;
+          const acetoneOrigin = parseFloat(acetoneOriginInput.value) || 0;
+          const acetoneFront = parseFloat(acetoneFrontInput.value) || 0;
+
+          // 1. Total Saline (subtract background from each region)
+          const totalSaline = (salineOrigin - background) + (salineFront - background);
+          totalSalineSpan.textContent = totalSaline.toFixed(1);
+
+          // 2. Total Acetone
+          const totalAcetone = (acetoneOrigin - background) + (acetoneFront - background);
+          totalAcetoneSpan.textContent = totalAcetone.toFixed(1);
+
+          // 3. % Hydrolyzed Reduced (saline)
+          //    *Ignore* background in the ratio to match your Excel reference
+          let percentHydrolyzed = 0;
+          const salineSum = salineOrigin + salineFront;
+          if (salineSum !== 0) {
+            percentHydrolyzed = (salineOrigin / salineSum) * 100;
+      }
+
+          // 4. % Pertechnetate (acetone)
+          //    *Ignore* background in the ratio to match your Excel reference
+          let percentPertechnetate = 0;
+          const acetoneSum = acetoneOrigin + acetoneFront;
+          if (acetoneSum !== 0) {
+            percentPertechnetate = (acetoneFront / acetoneSum) * 100;
+      }
+
+          // 5. % Complex Labeled
+          const percentComplex = 100 - (percentHydrolyzed + percentPertechnetate);
+
+          percentHydrolyzedSpan.textContent = percentHydrolyzed.toFixed(1);
+          percentPertechnetateSpan.textContent = percentPertechnetate.toFixed(1);
+          percentComplexSpan.textContent = percentComplex.toFixed(1);
         }
 
-        num1.addEventListener('input', calculateAddition);
-        num2.addEventListener('input', calculateAddition);
+          // Recalculate whenever any input changes
+          [
+            bgInput,
+            salineOriginInput,
+            salineFrontInput,
+            acetoneOriginInput,
+            acetoneFrontInput
+          ].forEach(input => {
+            input.addEventListener('input', recalc);
+       });
 
       } else if (hash === '#calc2') {
         // Multiplication
