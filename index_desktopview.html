@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <!-- Default mobile viewport -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Calculators SPA</title>
+  <style>
+    :root {
+      /* COLOR THEME */
+      --hospital-blue: #8B0000;  /* Example: a deep red or any color you like */
+      --hospital-accent: #efefef;
+      --hospital-bg: #9d979731;
+      --text-color: #333;
+      --white: #fff;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0; 
+      padding: 0;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background: var(--hospital-bg);
+      color: var(--text-color);
+    }
+    /*******************************************************
+     NAVIGATION BAR
+    ********************************************************/
+    nav {
+      background-color: var(--hospital-blue);
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    nav a {
+      text-decoration: none;
+      color: var(--white);
+      padding: 4px 8px;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    nav a.active {
+      border-bottom: 2px solid var(--hospital-accent);
+    }
+    /* Toggle button styling */
+    #toggleDesktopBtn {
+      margin-left: auto;
+      background: var(--white);
+      color: var(--hospital-blue);
+      border: 1px solid var(--hospital-blue);
+      padding: 4px 8px;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    /*******************************************************
+     MAIN CONTAINER (centered card)
+    ********************************************************/
+    .calculator-container {
+      background: var(--white);
+      margin: 20px auto;
+      padding: 20px;
+      max-width: 800px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      min-height: 400px;
+    }
+    /*******************************************************
+     HEADINGS
+    ********************************************************/
+    h2 {
+      color: var(--hospital-blue);
+      margin-bottom: 10px;
+    }
+    /*******************************************************
+     LABELS & INPUTS
+    ********************************************************/
+    label {
+      display: inline-block;
+      width: 150px;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+    input {
+      width: 100px;
+      margin-bottom: 10px;
+      padding: 4px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+    }
+    /*******************************************************
+     OPTIONAL: STRONG TEXT STYLING
+    ********************************************************/
+    strong {
+      color: var(--hospital-blue);
+    }
+    /*******************************************************
+     FIXED FOOTER NOTE (pinned to the bottom left)
+    ********************************************************/
+    .footer-note-fixed {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      background: var(--white);
+      border-top-right-radius: 5px;
+      border: 1px solid #ccc;
+      padding: 8px 12px;
+      font-size: 0.85rem;
+      box-shadow: 0 -2px 6px rgba(0,0,0,0.1);
+      color: var(--text-color);
+    }
+    /*******************************************************
+     TABLE WRAPPER (for horizontal scrolling on mobile)
+    ********************************************************/
+    .table-responsive {
+      width: 100%;
+      overflow-x: auto;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 15px;
+      min-width: 600px; /* ensures a minimum width */
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 6px;
+      text-align: center;
+      white-space: nowrap;
+    }
+    /*******************************************************
+     MEDIA QUERY FOR SMALL SCREENS
+    ********************************************************/
+    @media (max-width: 600px) {
+      label {
+        width: 100px;
+      }
+      table {
+        font-size: 0.85rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- NAVIGATION BAR with Toggle Desktop View Button -->
+  <nav>
+    <a href="#home" id="link-home">Home</a>
+    <a href="#calc1" id="link-calc1">DTPA</a>
+    <a href="#calc2" id="link-calc2">HIDA</a>
+    <a href="#calc3" id="link-calc3">MAA</a>
+    <a href="#calc4" id="link-calc4">MDP</a>
+    <button id="toggleDesktopBtn" onclick="toggleDesktopView()">Desktop View</button>
+  </nav>
+
+  <div class="calculator-container" id="calculator-container">
+    <!-- Dynamic content will load here -->
+  </div>
+
+  <!-- PINNED FOOTER NOTE -->
+  <div class="footer-note-fixed">
+    Developed by Michael H. Jones, B.S.
+  </div>
+
+  <script>
+    /*******************************************************
+     GLOBAL VARIABLES FOR REPORTING TABLES
+    ********************************************************/
+    // DTPA globals
+    let dtpaSampleCount = 1;
+    let dtpaStoredBackground = null;
+    // HIDA globals
+    let hidSampleCount = 1;
+    let hidStoredBackground = null;
+    // MAA globals
+    let maaSampleCount = 1;
+    let maaStoredBackground = null;
+    // MDP globals
+    let mdpSampleCount = 1;
+    let mdpStoredBackground = null;
+
+    /*******************************************************
+     DESKTOP VIEW TOGGLE FUNCTION
+    ********************************************************/
+    function toggleDesktopView() {
+      const metaTag = document.querySelector('meta[name="viewport"]');
+      if (metaTag.getAttribute('content') === 'width=device-width, initial-scale=1.0') {
+        // Switch to a desktop-like view (forcing a width of 1024px)
+        metaTag.setAttribute('content', 'width=1024');
+        document.getElementById('toggleDesktopBtn').textContent = "Mobile View";
+      } else {
+        metaTag.setAttribute('content', 'width=device-width, initial-scale=1.0');
+        document.getElementById('toggleDesktopBtn').textContent = "Desktop View";
+      }
+    }
+
+    /*******************************************************
+     RENDER FUNCTIONS
+    ********************************************************/
+    function renderHome() {
+      return `
+        <h2>Welcome!</h2>
+        <p>Select a calculator from the navigation above.</p>
+        <p>This site helps you calculate percent yields for various radiopharmaceutical QC tests.</p>
+      `;
+    }
+
+    /*******************************************************
+     1) DTPA CALCULATOR
+    ********************************************************/
+    function renderCalc1() {
+      return `
+        <h2>DTPA Percent Yield Calculator</h2>
+        <!-- INPUT FIELDS -->
+        <div>
+          <label for="dtpaBackground">Background (cpm):</label>
+          <input type="number" id="dtpaBackground" value="0" />
+        </div>
+        <div>
+          <label for="dtpaSalineOrigin">Saline Origin (cpm):</label>
+          <input type="number" id="dtpaSalineOrigin" value="0" />
+        </div>
+        <div>
+          <label for="dtpaSalineFront">Saline Front (cpm):</label>
+          <input type="number" id="dtpaSalineFront" value="0" />
+        </div>
+        <div>
+          <label for="dtpaMekOrigin">MEK Origin (cpm):</label>
+          <input type="number" id="dtpaMekOrigin" value="0" />
+        </div>
+        <div>
+          <label for="dtpaMekFront">MEK Front (cpm):</label>
+          <input type="number" id="dtpaMekFront" value="0" />
+        </div>
+        <br />
+        <div><strong>Total Saline (counts):</strong> <span id="dtpaTotalSaline">0</span></div>
+        <div><strong>Total MEK (counts):</strong> <span id="dtpaTotalMek">0</span></div>
+        <div><strong>% Hydrolyzed Reduced [TcO₂]:</strong> <span id="dtpaPercentHydrolyzed">0</span></div>
+        <div><strong>% Pertechnetate [TcO₄⁻]:</strong> <span id="dtpaPercentPertechnetate">0</span></div>
+        <div><strong>% DTPA Labeled:</strong> <span id="dtpaPercentComplexLabeled">0</span></div>
+        <br />
+        <button id="dtpaEnterBtn">Enter</button>
+        <!-- REPORTING TABLE WRAPPED FOR SCROLLING -->
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Sample (#)</th>
+                <th>Saline Sum (counts)</th>
+                <th>MEK Sum (counts)</th>
+                <th>% H/R [TcO₂]</th>
+                <th>% Pertechnetate [TcO₄⁻]</th>
+                <th>% DTPA</th>
+              </tr>
+            </thead>
+            <tbody id="dtpaTableBody"></tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    /*******************************************************
+     2) HIDA CALCULATOR
+    ********************************************************/
+    function renderCalc2() {
+      return `
+        <h2>HIDA Percent Yield Calculator</h2>
+        <!-- INPUT FIELDS -->
+        <div>
+          <label for="hidaBackground">Background (cpm):</label>
+          <input type="number" id="hidaBackground" value="0" />
+        </div>
+        <div>
+          <label for="hidaWaterOrigin">Water Origin (cpm):</label>
+          <input type="number" id="hidaWaterOrigin" value="0" />
+        </div>
+        <div>
+          <label for="hidaWaterFront">Water Front (cpm):</label>
+          <input type="number" id="hidaWaterFront" value="0" />
+        </div>
+        <div>
+          <label for="hidaSalineOrigin">Sat. Saline Origin (cpm):</label>
+          <input type="number" id="hidaSalineOrigin" value="0" />
+        </div>
+        <div>
+          <label for="hidaSalineFront">Sat. Saline Front (cpm):</label>
+          <input type="number" id="hidaSalineFront" value="0" />
+        </div>
+        <br />
+        <div><strong>Total Water (counts):</strong> <span id="hidaTotalWater">0</span></div>
+        <div><strong>Total Sat. Saline (counts):</strong> <span id="hidaTotalSaline">0</span></div>
+        <div><strong>% Hydrolyzed Reduced [TcO₂]:</strong> <span id="hidaPercentHydrolyzed">0</span></div>
+        <div><strong>% Pertechnetate [TcO₄⁻]:</strong> <span id="hidaPercentPertechnetate">0</span></div>
+        <div><strong>% HIDA Labeled:</strong> <span id="hidaPercentComplexLabeled">0</span></div>
+        <br />
+        <button id="hidaEnterBtn">Enter</button>
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Sample (#)</th>
+                <th>Total Water (counts)</th>
+                <th>Total Sat. Saline (counts)</th>
+                <th>% H/R [TcO₂]</th>
+                <th>% Pertechnetate [TcO₄⁻]</th>
+                <th>% HIDA Labeled</th>
+              </tr>
+            </thead>
+            <tbody id="hidaTableBody"></tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    /*******************************************************
+     3) MAA CALCULATOR
+    ********************************************************/
+    function renderCalc3() {
+      return `
+        <h2>MAA Percent Yield Calculator</h2>
+        <!-- INPUT FIELDS -->
+        <div>
+          <label for="background">Background (cpm):</label>
+          <input type="number" id="background" value="0" />
+        </div>
+        <div>
+          <label for="origin">Origin (cpm):</label>
+          <input type="number" id="origin" value="0" />
+        </div>
+        <div>
+          <label for="solventFront">Solvent Front (cpm):</label>
+          <input type="number" id="solventFront" value="0" />
+        </div>
+        <br/>
+        <div><strong>Total Counts:</strong> <span id="totalCounts">0</span></div>
+        <div><strong>% MAA Labeled:</strong> <span id="percentComplexed">0</span></div>
+        <br />
+        <button id="maaEnterBtn">Enter</button>
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Sample (#)</th>
+                <th>Total Counts</th>
+                <th>% MAA Labeled</th>
+              </tr>
+            </thead>
+            <tbody id="maaTableBody"></tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    /*******************************************************
+     4) MDP CALCULATOR
+    ********************************************************/
+    function renderCalc4() {
+      return `
+        <h2>MDP Percent Yield Calculator</h2>
+        <!-- INPUT FIELDS -->
+        <div>
+          <label for="sgBackground">Background (cpm):</label>
+          <input type="number" id="sgBackground" value="0" />
+        </div>
+        <div>
+          <label for="sgSalineOrigin">Saline Origin (cpm):</label>
+          <input type="number" id="sgSalineOrigin" value="0" />
+        </div>
+        <div>
+          <label for="sgSalineFront">Saline Solvent Front (cpm):</label>
+          <input type="number" id="sgSalineFront" value="0" />
+        </div>
+        <div>
+          <label for="sgAcetoneOrigin">Acetone Origin (cpm):</label>
+          <input type="number" id="sgAcetoneOrigin" value="0" />
+        </div>
+        <div>
+          <label for="sgAcetoneFront">Acetone Solvent Front (cpm):</label>
+          <input type="number" id="sgAcetoneFront" value="0" />
+        </div>
+        <br />
+        <div><strong>Total Saline (counts):</strong> <span id="totalSaline">0</span></div>
+        <div><strong>Total Acetone (counts):</strong> <span id="totalAcetone">0</span></div>
+        <div><strong>% Hydrolyzed Reduced [TcO₂]:</strong> <span id="percentHydrolyzed">0</span></div>
+        <div><strong>% Pertechnetate [TcO₄⁻]:</strong> <span id="percentPertechnetate">0</span></div>
+        <div><strong>% MDP Labeled:</strong> <span id="percentComplexLabeled">0</span></div>
+        <br />
+        <button id="mdpEnterBtn">Enter</button>
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Sample (#)</th>
+                <th>Total Saline (counts)</th>
+                <th>Total Acetone (counts)</th>
+                <th>% H/R [TcO₂]</th>
+                <th>% Pertechnetate [TcO₄⁻]</th>
+                <th>% MDP Labeled</th>
+              </tr>
+            </thead>
+            <tbody id="mdpTableBody"></tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    /*******************************************************
+     ROUTER FUNCTION
+    ********************************************************/
+    function router() {
+      const container = document.getElementById('calculator-container');
+      const hash = window.location.hash || '#home';
+      document.querySelectorAll('nav a').forEach(link => link.classList.remove('active'));
+
+      let content = '';
+      switch (hash) {
+        case '#calc1':
+          content = renderCalc1();
+          document.getElementById('link-calc1').classList.add('active');
+          break;
+        case '#calc2':
+          content = renderCalc2();
+          document.getElementById('link-calc2').classList.add('active');
+          break;
+        case '#calc3':
+          content = renderCalc3();
+          document.getElementById('link-calc3').classList.add('active');
+          break;
+        case '#calc4':
+          content = renderCalc4();
+          document.getElementById('link-calc4').classList.add('active');
+          break;
+        default:
+          content = renderHome();
+          document.getElementById('link-home').classList.add('active');
+      }
+      container.innerHTML = content;
+      attachEventListeners(hash);
+    }
+
+    /*******************************************************
+     EVENT LISTENER SETUP
+    ********************************************************/
+    function attachEventListeners(hash) {
+      /*******************************************************
+       1) DTPA CALCULATOR
+      ********************************************************/
+      if (hash === '#calc1') {
+        const bgInput = document.getElementById('dtpaBackground');
+        const salineOriginInput = document.getElementById('dtpaSalineOrigin');
+        const salineFrontInput = document.getElementById('dtpaSalineFront');
+        const mekOriginInput = document.getElementById('dtpaMekOrigin');
+        const mekFrontInput = document.getElementById('dtpaMekFront');
+
+        const totalSalineSpan = document.getElementById('dtpaTotalSaline');
+        const totalMekSpan = document.getElementById('dtpaTotalMek');
+        const percentHydrolyzedSpan = document.getElementById('dtpaPercentHydrolyzed');
+        const percentPertechnetateSpan = document.getElementById('dtpaPercentPertechnetate');
+        const percentComplexSpan = document.getElementById('dtpaPercentComplexLabeled');
+
+        const dtpaEnterBtn = document.getElementById('dtpaEnterBtn');
+        const dtpaTableBody = document.getElementById('dtpaTableBody');
+
+        function recalc() {
+          let background = dtpaStoredBackground;
+          if (dtpaSampleCount === 1) {
+            background = parseFloat(bgInput.value) || 0;
+          } else if (dtpaStoredBackground !== null) {
+            bgInput.value = dtpaStoredBackground;
+          }
+          const salineOrigin = parseFloat(salineOriginInput.value) || 0;
+          const salineFront = parseFloat(salineFrontInput.value) || 0;
+          const mekOrigin = parseFloat(mekOriginInput.value) || 0;
+          const mekFront = parseFloat(mekFrontInput.value) || 0;
+
+          const totalSaline = (salineOrigin - background) + (salineFront - background);
+          totalSalineSpan.textContent = totalSaline.toFixed(1);
+
+          const totalMek = (mekOrigin - background) + (mekFront - background);
+          totalMekSpan.textContent = totalMek.toFixed(1);
+
+          let percentHydrolyzed = 0;
+          const salineSum = salineOrigin + salineFront;
+          if (salineSum !== 0) {
+            percentHydrolyzed = (salineOrigin / salineSum) * 100;
+          }
+          let percentPertechnetate = 0;
+          const mekSum = mekOrigin + mekFront;
+          if (mekSum !== 0) {
+            percentPertechnetate = (mekFront / mekSum) * 100;
+          }
+          const percentComplex = 100 - (percentHydrolyzed + percentPertechnetate);
+
+          percentHydrolyzedSpan.textContent = percentHydrolyzed.toFixed(1);
+          percentPertechnetateSpan.textContent = percentPertechnetate.toFixed(1);
+          percentComplexSpan.textContent = percentComplex.toFixed(1);
+        }
+
+        [bgInput, salineOriginInput, salineFrontInput, mekOriginInput, mekFrontInput]
+          .forEach(input => input.addEventListener('input', recalc));
+
+        dtpaEnterBtn.addEventListener('click', function() {
+          if (dtpaSampleCount === 1) {
+            dtpaStoredBackground = parseFloat(bgInput.value) || 0;
+          }
+          const background = dtpaStoredBackground;
+          const salineOrigin = parseFloat(salineOriginInput.value) || 0;
+          const salineFront = parseFloat(salineFrontInput.value) || 0;
+          const mekOrigin = parseFloat(mekOriginInput.value) || 0;
+          const mekFront = parseFloat(mekFrontInput.value) || 0;
+
+          const totalSaline = (salineOrigin - background) + (salineFront - background);
+          const totalMek = (mekOrigin - background) + (mekFront - background);
+          let percentHydrolyzed = 0;
+          const salineSum = salineOrigin + salineFront;
+          if (salineSum !== 0) {
+            percentHydrolyzed = (salineOrigin / salineSum) * 100;
+          }
+          let percentPertechnetate = 0;
+          const mekSum = mekOrigin + mekFront;
+          if (mekSum !== 0) {
+            percentPertechnetate = (mekFront / mekSum) * 100;
+          }
+          const percentComplex = 100 - (percentHydrolyzed + percentPertechnetate);
+
+          const row = document.createElement('tr');
+
+          const sampleCell = document.createElement('td');
+          sampleCell.textContent = dtpaSampleCount;
+          row.appendChild(sampleCell);
+
+          const salineCell = document.createElement('td');
+          salineCell.textContent = totalSaline.toFixed(1);
+          row.appendChild(salineCell);
+
+          const mekCell = document.createElement('td');
+          mekCell.textContent = totalMek.toFixed(1);
+          row.appendChild(mekCell);
+
+          const hydroCell = document.createElement('td');
+          hydroCell.textContent = percentHydrolyzed.toFixed(1);
+          row.appendChild(hydroCell);
+
+          const pertecCell = document.createElement('td');
+          pertecCell.textContent = percentPertechnetate.toFixed(1);
+          row.appendChild(pertecCell);
+
+          const dtpaCell = document.createElement('td');
+          dtpaCell.textContent = percentComplex.toFixed(1);
+          row.appendChild(dtpaCell);
+
+          dtpaTableBody.appendChild(row);
+
+          dtpaSampleCount++;
+
+          bgInput.value = dtpaStoredBackground;
+          salineOriginInput.value = '';
+          salineFrontInput.value = '';
+          mekOriginInput.value = '';
+          mekFrontInput.value = '';
+
+          recalc();
+        });
+      }
+      /*******************************************************
+       2) HIDA CALCULATOR
+      ********************************************************/
+      else if (hash === '#calc2') {
+        const bgInput = document.getElementById('hidaBackground');
+        const waterOriginInput = document.getElementById('hidaWaterOrigin');
+        const waterFrontInput = document.getElementById('hidaWaterFront');
+        const salineOriginInput = document.getElementById('hidaSalineOrigin');
+        const salineFrontInput = document.getElementById('hidaSalineFront');
+
+        const totalWaterSpan = document.getElementById('hidaTotalWater');
+        const totalSalineSpan = document.getElementById('hidaTotalSaline');
+        const percentHydrolyzedSpan = document.getElementById('hidaPercentHydrolyzed');
+        const percentPertechnetateSpan = document.getElementById('hidaPercentPertechnetate');
+        const percentComplexSpan = document.getElementById('hidaPercentComplexLabeled');
+
+        const hidEnterBtn = document.getElementById('hidaEnterBtn');
+        const hidTableBody = document.getElementById('hidaTableBody');
+
+        function recalcHIDA() {
+          let background = hidStoredBackground;
+          if (hidSampleCount === 1) {
+            background = parseFloat(bgInput.value) || 0;
+          } else if (hidStoredBackground !== null) {
+            bgInput.value = hidStoredBackground;
+          }
+          const waterOrigin = parseFloat(waterOriginInput.value) || 0;
+          const waterFront = parseFloat(waterFrontInput.value) || 0;
+          const salineOrigin = parseFloat(salineOriginInput.value) || 0;
+          const salineFront = parseFloat(salineFrontInput.value) || 0;
+
+          const totalWater = (waterOrigin - background) + (waterFront - background);
+          totalWaterSpan.textContent = totalWater.toFixed(1);
+
+          const totalSaline = (salineOrigin - background) + (salineFront - background);
+          totalSalineSpan.textContent = totalSaline.toFixed(1);
+
+          let percentHydrolyzed = 0;
+          const waterSum = waterOrigin + waterFront;
+          if (waterSum !== 0) {
+            percentHydrolyzed = (waterOrigin / waterSum) * 100;
+          }
+          let percentPertechnetate = 0;
+          const salineSum = salineOrigin + salineFront;
+          if (salineSum !== 0) {
+            percentPertechnetate = (salineFront / salineSum) * 100;
+          }
+          const percentComplex = 100 - (percentHydrolyzed + percentPertechnetate);
+
+          percentHydrolyzedSpan.textContent = percentHydrolyzed.toFixed(1);
+          percentPertechnetateSpan.textContent = percentPertechnetate.toFixed(1);
+          percentComplexSpan.textContent = percentComplex.toFixed(1);
+        }
+
+        [bgInput, waterOriginInput, waterFrontInput, salineOriginInput, salineFrontInput]
+          .forEach(input => input.addEventListener('input', recalcHIDA));
+
+        hidEnterBtn.addEventListener('click', function() {
+          if (hidSampleCount === 1) {
+            hidStoredBackground = parseFloat(bgInput.value) || 0;
+          }
+          const background = hidStoredBackground;
+          const waterOrigin = parseFloat(waterOriginInput.value) || 0;
+          const waterFront = parseFloat(waterFrontInput.value) || 0;
+          const salineOrigin = parseFloat(salineOriginInput.value) || 0;
+          const salineFront = parseFloat(salineFrontInput.value) || 0;
+
+          const totalWater = (waterOrigin - background) + (waterFront - background);
+          const totalSaline = (salineOrigin - background) + (salineFront - background);
+
+          let percentHydrolyzed = 0;
+          const waterSum = waterOrigin + waterFront;
+          if (waterSum !== 0) {
+            percentHydrolyzed = (waterOrigin / waterSum) * 100;
+          }
+          let percentPertechnetate = 0;
+          const salineSum = salineOrigin + salineFront;
+          if (salineSum !== 0) {
+            percentPertechnetate = (salineFront / salineSum) * 100;
+          }
+          const percentComplex = 100 - (percentHydrolyzed + percentPertechnetate);
+
+          const row = document.createElement('tr');
+
+          const sampleCell = document.createElement('td');
+          sampleCell.textContent = hidSampleCount;
+          row.appendChild(sampleCell);
+
+          const waterCell = document.createElement('td');
+          waterCell.textContent = totalWater.toFixed(1);
+          row.appendChild(waterCell);
+
+          const salineCell = document.createElement('td');
+          salineCell.textContent = totalSaline.toFixed(1);
+          row.appendChild(salineCell);
+
+          const hydroCell = document.createElement('td');
+          hydroCell.textContent = percentHydrolyzed.toFixed(1);
+          row.appendChild(hydroCell);
+
+          const pertecCell = document.createElement('td');
+          pertecCell.textContent = percentPertechnetate.toFixed(1);
+          row.appendChild(pertecCell);
+
+          const hadaCell = document.createElement('td');
+          hadaCell.textContent = percentComplex.toFixed(1);
+          row.appendChild(hadaCell);
+
+          hidTableBody.appendChild(row);
+
+          hidSampleCount++;
+
+          bgInput.value = hidStoredBackground;
+          waterOriginInput.value = '';
+          waterFrontInput.value = '';
+          salineOriginInput.value = '';
+          salineFrontInput.value = '';
+
+          recalcHIDA();
+        });
+      }
+      /*******************************************************
+       3) MAA CALCULATOR
+      ********************************************************/
+      else if (hash === '#calc3') {
+        const backgroundInput = document.getElementById('background');
+        const originInput = document.getElementById('origin');
+        const solventFrontInput = document.getElementById('solventFront');
+
+        const totalCountsSpan = document.getElementById('totalCounts');
+        const percentComplexedSpan = document.getElementById('percentComplexed');
+
+        const maaEnterBtn = document.getElementById('maaEnterBtn');
+        const maaTableBody = document.getElementById('maaTableBody');
+
+        function recalcMAA() {
+          let background = maaStoredBackground;
+          if (maaSampleCount === 1) {
+            background = parseFloat(backgroundInput.value) || 0;
+          } else if (maaStoredBackground !== null) {
+            backgroundInput.value = maaStoredBackground;
+          }
+          const origin = parseFloat(originInput.value) || 0;
+          const solventFront = parseFloat(solventFrontInput.value) || 0;
+
+          const totalCounts = (origin - background) + (solventFront - background);
+          totalCountsSpan.textContent = totalCounts.toFixed(1);
+
+          let percentComplexed = 0;
+          if (totalCounts !== 0) {
+            percentComplexed = ((origin - background) / totalCounts) * 100;
+          }
+          percentComplexedSpan.textContent = percentComplexed.toFixed(1);
+        }
+
+        [backgroundInput, originInput, solventFrontInput]
+          .forEach(input => input.addEventListener('input', recalcMAA));
+
+        maaEnterBtn.addEventListener('click', function() {
+          if (maaSampleCount === 1) {
+            maaStoredBackground = parseFloat(backgroundInput.value) || 0;
+          }
+          const background = maaStoredBackground;
+          const origin = parseFloat(originInput.value) || 0;
+          const solventFront = parseFloat(solventFrontInput.value) || 0;
+
+          const totalCounts = (origin - background) + (solventFront - background);
+          let percentComplexed = 0;
+          if (totalCounts !== 0) {
+            percentComplexed = ((origin - background) / totalCounts) * 100;
+          }
+
+          const row = document.createElement('tr');
+
+          const sampleCell = document.createElement('td');
+          sampleCell.textContent = maaSampleCount;
+          row.appendChild(sampleCell);
+
+          const countsCell = document.createElement('td');
+          countsCell.textContent = totalCounts.toFixed(1);
+          row.appendChild(countsCell);
+
+          const complexedCell = document.createElement('td');
+          complexedCell.textContent = percentComplexed.toFixed(1);
+          row.appendChild(complexedCell);
+
+          maaTableBody.appendChild(row);
+
+          maaSampleCount++;
+
+          backgroundInput.value = maaStoredBackground;
+          originInput.value = '';
+          solventFrontInput.value = '';
+
+          recalcMAA();
+        });
+      }
+      /*******************************************************
+       4) MDP CALCULATOR
+      ********************************************************/
+      else if (hash === '#calc4') {
+        const bgInput = document.getElementById('sgBackground');
+        const salineOriginInput = document.getElementById('sgSalineOrigin');
+        const salineFrontInput = document.getElementById('sgSalineFront');
+        const acetoneOriginInput = document.getElementById('sgAcetoneOrigin');
+        const acetoneFrontInput = document.getElementById('sgAcetoneFront');
+
+        const totalSalineSpan = document.getElementById('totalSaline');
+        const totalAcetoneSpan = document.getElementById('totalAcetone');
+        const percentHydrolyzedSpan = document.getElementById('percentHydrolyzed');
+        const percentPertechnetateSpan = document.getElementById('percentPertechnetate');
+        const percentComplexSpan = document.getElementById('percentComplexLabeled');
+
+        const mdpEnterBtn = document.getElementById('mdpEnterBtn');
+        const mdpTableBody = document.getElementById('mdpTableBody');
+
+        function recalcMDP() {
+          let background = mdpStoredBackground;
+          if (mdpSampleCount === 1) {
+            background = parseFloat(bgInput.value) || 0;
+          } else if (mdpStoredBackground !== null) {
+            bgInput.value = mdpStoredBackground;
+          }
+          const salineOrigin = parseFloat(salineOriginInput.value) || 0;
+          const salineFront = parseFloat(salineFrontInput.value) || 0;
+          const acetoneOrigin = parseFloat(acetoneOriginInput.value) || 0;
+          const acetoneFront = parseFloat(acetoneFrontInput.value) || 0;
+
+          const totalSaline = (salineOrigin - background) + (salineFront - background);
+          totalSalineSpan.textContent = totalSaline.toFixed(1);
+
+          const totalAcetone = (acetoneOrigin - background) + (acetoneFront - background);
+          totalAcetoneSpan.textContent = totalAcetone.toFixed(1);
+
+          let percentHydrolyzed = 0;
+          const salineSum = salineOrigin + salineFront;
+          if (salineSum !== 0) {
+            percentHydrolyzed = (salineOrigin / salineSum) * 100;
+          }
+          let percentPertechnetate = 0;
+          const acetoneSum = acetoneOrigin + acetoneFront;
+          if (acetoneSum !== 0) {
+            percentPertechnetate = (acetoneFront / acetoneSum) * 100;
+          }
+          const percentComplex = 100 - (percentHydrolyzed + percentPertechnetate);
+
+          percentHydrolyzedSpan.textContent = percentHydrolyzed.toFixed(1);
+          percentPertechnetateSpan.textContent = percentPertechnetate.toFixed(1);
+          percentComplexSpan.textContent = percentComplex.toFixed(1);
+        }
+
+        [bgInput, salineOriginInput, salineFrontInput, acetoneOriginInput, acetoneFrontInput]
+          .forEach(input => input.addEventListener('input', recalcMDP));
+
+        mdpEnterBtn.addEventListener('click', function() {
+          if (mdpSampleCount === 1) {
+            mdpStoredBackground = parseFloat(bgInput.value) || 0;
+          }
+          const background = mdpStoredBackground;
+          const salineOrigin = parseFloat(salineOriginInput.value) || 0;
+          const salineFront = parseFloat(salineFrontInput.value) || 0;
+          const acetoneOrigin = parseFloat(acetoneOriginInput.value) || 0;
+          const acetoneFront = parseFloat(acetoneFrontInput.value) || 0;
+
+          const totalSaline = (salineOrigin - background) + (salineFront - background);
+          const totalAcetone = (acetoneOrigin - background) + (acetoneFront - background);
+
+          let percentHydrolyzed = 0;
+          const salineSum = salineOrigin + salineFront;
+          if (salineSum !== 0) {
+            percentHydrolyzed = (salineOrigin / salineSum) * 100;
+          }
+          let percentPertechnetate = 0;
+          const acetoneSum = acetoneOrigin + acetoneFront;
+          if (acetoneSum !== 0) {
+            percentPertechnetate = (acetoneFront / acetoneSum) * 100;
+          }
+          const percentComplex = 100 - (percentHydrolyzed + percentPertechnetate);
+
+          const row = document.createElement('tr');
+
+          const sampleCell = document.createElement('td');
+          sampleCell.textContent = mdpSampleCount;
+          row.appendChild(sampleCell);
+
+          const salineCell = document.createElement('td');
+          salineCell.textContent = totalSaline.toFixed(1);
+          row.appendChild(salineCell);
+
+          const acetoneCell = document.createElement('td');
+          acetoneCell.textContent = totalAcetone.toFixed(1);
+          row.appendChild(acetoneCell);
+
+          const hydroCell = document.createElement('td');
+          hydroCell.textContent = percentHydrolyzed.toFixed(1);
+          row.appendChild(hydroCell);
+
+          const pertecCell = document.createElement('td');
+          pertecCell.textContent = percentPertechnetate.toFixed(1);
+          row.appendChild(pertecCell);
+
+          const mdpCell = document.createElement('td');
+          mdpCell.textContent = percentComplex.toFixed(1);
+          row.appendChild(mdpCell);
+
+          mdpTableBody.appendChild(row);
+
+          mdpSampleCount++;
+
+          bgInput.value = mdpStoredBackground;
+          salineOriginInput.value = '';
+          salineFrontInput.value = '';
+          acetoneOriginInput.value = '';
+          acetoneFrontInput.value = '';
+
+          recalcMDP();
+        });
+      }
+    }
+
+    window.addEventListener('hashchange', router);
+    window.addEventListener('DOMContentLoaded', router);
+  </script>
+</body>
+</html>
