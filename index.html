@@ -194,58 +194,58 @@
      1) DTPA CALCULATOR
        - Includes: input fields, Enter button, and dynamic reporting table.
     ********************************************************/
-    function renderCalc1() {
-      return `
-        <h2 style="text-align:center;">DTPA<br><small>(Pulmonary Embolism)</small></h2>
-        <!-- INPUT FIELDS -->
-      <div>
-        <label for="dtpaBackground">Background (cpm):</label>
-       <input type="number" id="dtpaBackground" value="0" />
-       </div>
-      <div>
-        <label for="dtpaSalineOrigin">Saline Origin (cpm):</label>
-        <input type="number" id="dtpaSalineOrigin" value="0" />
-        </div>
-        <div>
-          <label for="dtpaSalineFront">Saline Front (cpm):</label>
-          <input type="number" id="dtpaSalineFront" value="0" />
-        </div>
-        <div>
-          <label for="dtpaMekOrigin">MEK Origin (cpm):</label>
-          <input type="number" id="dtpaMekOrigin" value="0" />
-        </div>
-        <div>
-          <label for="dtpaMekFront">MEK Front (cpm):</label>
-          <input type="number" id="dtpaMekFront" value="0" />
-        </div>
-          <!-- REAL-TIME DISPLAY (Optional) -->
-          <br />
-        <div><strong>Total Saline (counts):</strong> <span id="dtpaTotalSaline">0</span></div>
-        <div><strong>Total MEK (counts):</strong> <span id="dtpaTotalMek">0</span></div>
-        <div><strong>% Hydrolyzed Reduced [TcO₂]:</strong> <span id="dtpaPercentHydrolyzed">0</span></div>
-        <div><strong>% Pertechnetate [TcO₄⁻]:</strong> <span id="dtpaPercentPertechnetate">0</span></div>
-        <div><strong>% DTPA Labeled:</strong> <span id="dtpaPercentComplexLabeled">0</span></div>
-          <!-- SUBMIT BUTTON -->
-          <br />
-          <button id="dtpaEnterBtn">Enter</button>
-          <!-- REPORTING TABLE -->
-        <table>
-          <thead>
-          <tr>
-            <th>Sample (#)</th>
-            <th>Saline Sum (counts)</th>
-            <th>MEK Sum (counts)</th>
-            <th>% H/R [TcO₂]</th>
-            <th>% Pertechnetate [TcO₄⁻]</th>
-            <th>% DTPA</th>
-            </tr>
-          </thead>
-            <tbody id="dtpaTableBody"></tbody>
-          </table>
-          <!-- NOTE SECTION -->
-        <div style="margin-top:20px; text-align:center; font-style:italic; color:#555;">
-      Purpose: Distribution of aerosolized DTPA shows where the patient is ventilating.
-      Assessment: Ventilation-Perfusion (V/Q) mismatch in patients suspected of having a pulmonary embolism.
+function renderCalc1() {
+  return `
+    <h2 style="text-align:center;">DTPA<br><small>(Pulmonary Embolism)</small></h2>
+    <!-- INPUT FIELDS -->
+    <div>
+      <label for="dtpaBackground">Background (cpm):</label>
+      <input type="number" id="dtpaBackground" value="0" />
+    </div>
+    <div>
+      <label for="dtpaSalineOrigin">Saline Origin (cpm):</label>
+      <input type="number" id="dtpaSalineOrigin" value="0" />
+    </div>
+    <div>
+      <label for="dtpaSalineFront">Saline Front (cpm):</label>
+      <input type="number" id="dtpaSalineFront" value="0" />
+    </div>
+    <div>
+      <label for="dtpaMekOrigin">MEK Origin (cpm):</label>
+      <input type="number" id="dtpaMekOrigin" value="0" />
+    </div>
+    <div>
+      <label for="dtpaMekFront">MEK Front (cpm):</label>
+      <input type="number" id="dtpaMekFront" value="0" />
+    </div>
+    <!-- REAL-TIME DISPLAY (Optional) -->
+    <br />
+    <div><strong>Total Saline (counts):</strong> <span id="dtpaTotalSaline">0</span></div>
+    <div><strong>Total MEK (counts):</strong> <span id="dtpaTotalMek">0</span></div>
+    <div><strong>% Hydrolyzed Reduced [TcO₂]:</strong> <span id="dtpaPercentHydrolyzed">0</span></div>
+    <div><strong>% Pertechnetate [TcO₄⁻]:</strong> <span id="dtpaPercentPertechnetate">0</span></div>
+    <div><strong>% DTPA Labeled:</strong> <span id="dtpaPercentComplexLabeled">0</span></div>
+    <!-- SUBMIT BUTTON -->
+    <br />
+    <button id="dtpaEnterBtn">Enter</button>
+    <!-- REPORTING TABLE -->
+    <table>
+      <thead>
+        <tr>
+          <th>Sample (#)</th>
+          <th>Saline Sum (counts)</th>
+          <th>MEK Sum (counts)</th>
+          <th>% H/R [TcO₂]</th>
+          <th>% Pertechnetate [TcO₄⁻]</th>
+          <th>% DTPA</th>
+        </tr>
+      </thead>
+      <tbody id="dtpaTableBody"></tbody>
+    </table>
+    <!-- NOTE SECTION -->
+    <div style="margin-top:20px; text-align:left; font-style:italic; color:#555;">
+      <div>Purpose: Distribution of aerosolized DTPA shows where the patient is ventilating.</div>
+      <div>Assessment: Ventilation-Perfusion (V/Q) mismatch in patients suspected of having a pulmonary embolism.</div>
     </div>
       `;
     }
@@ -1028,5 +1028,6 @@
 <!DOCTYPE html>
 <html lang="en">
   
+
 
 
